@@ -5,19 +5,21 @@ interface Props {
     image: string;
     items: string[];
     onItemClick: (item: string) => void;
-    direction?: 'left' | 'right'; // Nova propriedade para determinar a direção do dropdown
+    direction?: 'left' | 'right';
+    onClick?: () => void; // Torna a prop onClick opcional
 }
 
-const DropdownButton: React.FC<Props> = ({ image, items, onItemClick, direction = 'right' }) => {
+const DropdownButton: React.FC<Props> = ({ image, items, onItemClick, direction = 'right', onClick }) => {
     const [dropdownVisible, setDropdownVisible] = useState(false);
 
     const handleDropdownClick = () => {
         setDropdownVisible(!dropdownVisible);
+        if (onClick) onClick(); // Chama a função onClick se ela existir
     };
 
     const handleDropdownItemClick = (item: string) => {
         onItemClick(item);
-        setDropdownVisible(false); // Fechar o dropdown após clicar em um item
+        setDropdownVisible(false);
     };
 
     const dropdownClassName = `dropdown-content ${direction}`;
